@@ -56,7 +56,7 @@
 
         public VoucherCodeConfigModel WithPostfix(string postfix) => new VoucherCodeConfigModel(length > 0 ? length : 0, charset ?? null, prefix ?? null, postfix, pattern ?? null);
 
-        public VoucherCodeConfigModel WithPattern(string pattern) => new VoucherCodeConfigModel(length > 0 ? length : 00, charset ?? null, prefix ?? null, postfix ?? null, pattern);
+        public VoucherCodeConfigModel WithPattern(string pattern) => new VoucherCodeConfigModel(length > 0 ? length : 0, charset ?? null, prefix ?? null, postfix ?? null, pattern);
 
         public int Length
         {
