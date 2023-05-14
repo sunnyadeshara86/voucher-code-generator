@@ -1,2 +1,8 @@
 # voucher-code-generator
 Generate unique, random, and hard to guess coupon / voucher codes. Use cases: promo codes, loyalty coupons, gift vouchers, in-app purchases, referral links
+
+## Components
+
+Voucher Code Generation Library
+Voucher Code Generation API
+Voucher Code Generation Web Application
