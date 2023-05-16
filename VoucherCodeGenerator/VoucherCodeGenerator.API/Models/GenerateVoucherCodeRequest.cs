@@ -2,6 +2,7 @@
 {
     public class GenerateVoucherCodeRequest
     {
+        public int NumberOfVouchers { get; set; } = 1;
         public int Length { get; set; } = 10;
         public string CharacterSetsName { get; set; } = "NUMBERS";
         public string VoucherCodePrefix { get; set; } = string.Empty;

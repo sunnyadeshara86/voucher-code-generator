@@ -2,6 +2,6 @@
 {
     public class GenerateVoucherCodeResponse
     {
-        public string VoucherCode { get; set; } = string.Empty;
+        public List<string> VoucherCode { get; set; } = new List<string>();
     }
 }
