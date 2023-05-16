@@ -11,22 +11,42 @@ namespace VoucherCodeGenerator.API.Controllers
     {
         [HttpPost]
         [Route("generate")]
-        public IActionResult GenerateVoucherCode(GenerateVoucherCodeRequest generateVoucherCodeRequest)
+        public IActionResult GenerateVoucherCodes(GenerateVoucherCodeRequest generateVoucherCodeRequest)
         {
             string charactersSet = CharactersSetHelper.GetCharactersSetFromName(generateVoucherCodeRequest.CharacterSetsName);
 
             lib.VoucherCodeConfigModel voucherCodeConfigModel = lib.VoucherCodeConfigModel.Iniliatize()
-                .WithLength(generateVoucherCodeRequest.Length)
-                .WithCharset(charactersSet)
-                .WithPrefix(generateVoucherCodeRequest.VoucherCodePrefix)
-                .WithPostfix(generateVoucherCodeRequest.VoucherCodePostfix)
-                .WithPattern(generateVoucherCodeRequest.VoucherCodePattern);
+                .WithCharset(charactersSet);
 
-            string voucherCode = lib.VoucherCodeGenerator.Generate(voucherCodeConfigModel);
+            if(generateVoucherCodeRequest.Length > 0) 
+            { 
+                voucherCodeConfigModel = voucherCodeConfigModel.WithLength(generateVoucherCodeRequest.Length)
+                .WithPrefix(generateVoucherCodeRequest.VoucherCodePrefix)
+                .WithPostfix(generateVoucherCodeRequest.VoucherCodePostfix);
+            }
+            else if(generateVoucherCodeRequest.VoucherCodePattern != null)
+            {
+                voucherCodeConfigModel = voucherCodeConfigModel.WithPattern(generateVoucherCodeRequest.VoucherCodePattern);
+            }
+
+            List<string> voucherCodes = new List<string>();
+
+            int generatedVouchers = 0;
+
+            while (generatedVouchers < generateVoucherCodeRequest.NumberOfVouchers)
+            {
+                string voucherCode = lib.VoucherCodeGenerator.Generate(voucherCodeConfigModel);
+
+                if (voucherCodes.Contains(voucherCode))
+                    continue;
+
+                voucherCodes.Add(voucherCode);
+                generatedVouchers++;
+            }
 
             GenerateVoucherCodeResponse generateVoucherCodeResponse = new GenerateVoucherCodeResponse()
             {
-                VoucherCode = voucherCode
+                VoucherCode = voucherCodes
             };
 
             return Ok(generateVoucherCodeResponse);
